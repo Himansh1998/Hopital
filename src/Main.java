@@ -10,7 +10,7 @@ public class Main {
         PreparedStatement pst = null;
         int i = 0;
         try {
-
+            //Load data file will load data from file into stage table
             
             String q1 = "LOAD DATA LOCAL INFILE '"+FileName+"' INTO TABLE stage_cust FIELDS TERMINATED BY '|' \r\n"
             		+ "lines terminated by '\\r\\n' IGNORE 1 LINES (@col1,@col2,@col3,@col4,@col5,@col6,@col7,@col8,@col9,@col10,@col11,@col12) \r\n"
@@ -41,6 +41,9 @@ public class Main {
             ResultSet rs = stmt.executeQuery(q1);
             Statement st1 = con.createStatement();
             while(rs.next()) {
+                
+                //Create table if not present in database according to country name
+                
             	 String table_name = "Table_"+rs.getString(1);
             	 q1 = "create table IF NOT EXISTS "+table_name+"(Customer_Name varchar(255) not null primary key,Customer_Id varchar(18) not null, Customer_Open_Date date not null,\r\n"
             	 		+ "Last_Consulted_Date date, Vaccination_Type varchar(5), Doctor_Consulted varchar(255), State varchar(5), Country varchar(5), Post_Code integer(5),\r\n"
@@ -57,6 +60,8 @@ public class Main {
     
     public static void stageToCore(Connection con) {
     	try {
+            
+            // Load data to respective table
     		
     		String q1 = "select * from stage_cust;";
     		Statement stmt = con.createStatement();
