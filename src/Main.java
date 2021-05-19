@@ -4,6 +4,25 @@ import java.sql.*;
 
 public class Main {
     static Connection connection = null;
+    public static void main(String[] args) throws IOException {
+
+        String FileName = "C://Users//Himansh//Desktop//Assg//File.txt";
+        
+
+        try {
+        	Class.forName("com.mysql.cj.jdbc.Driver");
+        	Connection con=DriverManager.getConnection(  
+        			"jdbc:mysql://localhost:3306/test","root","****");
+        	loadStageTable(FileName,con);
+        	createCoreTables(con);
+        	stageToCore(con);
+        } catch (SQLException e) {
+            System.out.println("Connection Failed! Check output console");
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Exception message : " + e.getMessage());
+        }
+    }
 
     public static void loadStageTable(String FileName, Connection connection) {
         String values[] = null;
@@ -75,7 +94,7 @@ public class Main {
             	pst.setString(i,rs.getString(i) );
             	
             	pst.executeUpdate();
-            	System.out.println(pst);
+            	System.out.println("Load To Core");
             }
             
             
@@ -84,25 +103,6 @@ public class Main {
     	}
     }
 
-    public static void main(String[] args) throws IOException {
-
-        String FileName = "C://Users//Himansh//Desktop//Assg//File.txt";
-        
-
-        try {
-        	Class.forName("com.mysql.cj.jdbc.Driver");
-        	Connection con=DriverManager.getConnection(  
-        			"jdbc:mysql://localhost:3306/test","root","****");
-        	loadStageTable(FileName,con);
-        	createCoreTables(con);
-        	stageToCore(con);
-        } catch (SQLException e) {
-            System.out.println("Connection Failed! Check output console");
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.out.println("Exception message : " + e.getMessage());
-        }
-    }
-
+    
 
 }
